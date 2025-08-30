@@ -1,7 +1,7 @@
+// server.js
 const { createServer } = require("http");
 const next = require("next");
 
-const port = process.env.PORT || 3000; // must honor process.env.PORT
 const dev = process.env.NODE_ENV !== "production";
 const app = next({ dev });
 const handle = app.getRequestHandler();
@@ -9,7 +9,8 @@ const handle = app.getRequestHandler();
 app.prepare().then(() => {
   createServer((req, res) => {
     handle(req, res);
-  }).listen(port, () => {
-    console.log(`> Server ready on http://localhost:${port}`);
+  }).listen(process.env.PORT || 3000, (err) => {
+    if (err) throw err;
+    console.log("> Ready on http://localhost:3000");
   });
 });
