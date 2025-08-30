@@ -27,17 +27,11 @@ jobs:
         run: |
           mkdir -p deploy
           cp -r .next/standalone/* deploy/
-          
-          if [ -d ".next/static" ]; then
-            mkdir -p deploy/.next
-            cp -r .next/static deploy/.next/static
-          fi
-          
-          if [ -d "public" ]; then
-            cp -r public deploy/public
-          fi
-          
+          cp -r .next/static deploy/.next/static || echo "no static folder"
+          cp -r public deploy/public || echo "no public folder"
           cp package.json deploy/
+          cp server.js deploy/
+
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
